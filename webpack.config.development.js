@@ -7,10 +7,6 @@ const baseConfig = require('./webpack.config.base.js');
 
 const config = merge(baseConfig, {
   mode: 'development',
-  output: {
-    filename: '[name].js',
-    path: __dirname + '/dist'
-  },
   devtool: 'inline-source-map',
   plugins: [
     new webpack.DefinePlugin({
