@@ -35,10 +35,12 @@ module.exports = {
       {
         test: /\.pug$/,
         oneOf: [
+          // vueから呼ばれる場合
           {
             resourceQuery: /^\?vue/,
             use: ['pug-plain-loader']
           },
+          // その他（htmlWebpackPluginからとか）
           {
             use: [{
               loader: 'pug-loader',
@@ -60,7 +62,7 @@ module.exports = {
   plugins: [
     new styleLintPlugin(),
     new htmlWebpackPlugin({
-      template: 'src/html/index.pug',
+      template: __dirname + '/src/html/index.pug',
       inject: false
     }),
     new VueLoaderPlugin()
