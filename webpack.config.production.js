@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 
 const baseConfig = require('./webpack.config.base.js');
@@ -25,7 +26,10 @@ config.module.rules.push({
       loader: 'css-loader',
       options: {
         url: false,
-        minimize: true
+        // 0 => no loaders (default);
+        // 1 => postcss-loader;
+        // 2 => postcss-loader, sass-loader
+        importLoaders: 2
       }
     },
     {
@@ -37,7 +41,8 @@ config.module.rules.push({
               'last 2 version',
               'IE 11'
             ]
-          })
+          }),
+          cssnano()
         ]
       }
     },

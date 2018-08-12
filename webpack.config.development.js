@@ -40,7 +40,11 @@ config.module.rules.push({
       loader: 'css-loader',
       options: {
         url: false,
-        sourceMap: true
+        sourceMap: true,
+        // 0 => no loaders (default);
+        // 1 => postcss-loader;
+        // 2 => postcss-loader, sass-loader
+        importLoaders: 2
       }
     },
     {
