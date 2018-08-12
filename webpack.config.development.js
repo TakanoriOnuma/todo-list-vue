@@ -27,7 +27,8 @@ const config = merge(baseConfig, {
     disableHostCheck: true,
     hot: true,
     inline: true,
-    port: 9000
+    overlay: true,
+    port: 4000
   }
 });
 
