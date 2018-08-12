@@ -34,6 +34,7 @@ const config = merge(baseConfig, {
 config.module.rules.push({
   test: /\.(sass|scss)$/,
   use: [
+    'css-hot-loader',
     MiniCssExtractPlugin.loader,
     {
       loader: 'css-loader',
