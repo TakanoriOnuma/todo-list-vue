@@ -1,4 +1,5 @@
 //const sassLintPlugin = require('sasslint-webpack-plugin');
+const styleLintPlugin = require('stylelint-webpack-plugin');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
@@ -58,6 +59,7 @@ module.exports = {
     }
   },
   plugins: [
+    new styleLintPlugin(),
     // new sassLintPlugin({
     //   glob: 'src/css/**/*.s?(a|c)ss',
     //   ignorePlugins: ['extract-text-webpack-plugin']
