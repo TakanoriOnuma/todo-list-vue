@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
-const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const baseConfig = require('./webpack.config.base.js');
 
@@ -12,7 +12,7 @@ const config = merge(baseConfig, {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
-    new MiniCSSExtractPlugin({
+    new MiniCssExtractPlugin({
       filename: '[name].css'
     })
   ]
@@ -21,7 +21,7 @@ const config = merge(baseConfig, {
 config.module.rules.push({
   test: /\.(sass|scss)$/,
   use: [
-    MiniCSSExtractPlugin.loader,
+    MiniCssExtractPlugin.loader,
     {
       loader: 'css-loader',
       options: {
