@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const autoprefixer = require('autoprefixer');
@@ -8,6 +9,10 @@ const baseConfig = require('./webpack.config.base.js');
 
 const config = merge(baseConfig, {
   mode: 'production',
+  output: {
+    // HTMLにinjectionするパスを相対パスで設定する
+    publicPath: './'
+  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
@@ -21,6 +26,7 @@ const config = merge(baseConfig, {
 config.module.rules.push({
   test: /\.(sass|scss)$/,
   use: [
+    // CSSをextractする
     MiniCssExtractPlugin.loader,
     {
       loader: 'css-loader',
@@ -49,7 +55,7 @@ config.module.rules.push({
     {
       loader: 'sass-loader',
       options: {
-        includePaths: [__dirname + '/node_modules/']
+        includePaths: [path.resolve('./node_modules/')]
       }
     }
   ]

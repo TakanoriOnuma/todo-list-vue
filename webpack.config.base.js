@@ -1,15 +1,15 @@
-const styleLintPlugin = require('stylelint-webpack-plugin');
-const htmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const StyleLintPlugin = require('stylelint-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
   entry: {
-    'index': [__dirname + '/src/javascripts/entry.js']
+    'index': [path.resolve('./src/javascripts/entry.js')]
   },
   output: {
     filename: '[name].js',
-    path: __dirname + '/dist',
-    publicPath: '/'
+    path: path.resolve('./dist')
   },
   module: {
     rules: [
@@ -60,10 +60,11 @@ module.exports = {
     }
   },
   plugins: [
-    new styleLintPlugin(),
-    new htmlWebpackPlugin({
-      template: __dirname + '/src/html/index.pug',
-      inject: false
+    new StyleLintPlugin(),
+    new HtmlWebpackPlugin({
+      template: path.resolve('./src/html/index.pug'),
+      hash: true,
+      inject: true
     }),
     new VueLoaderPlugin()
   ]

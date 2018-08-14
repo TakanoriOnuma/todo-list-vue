@@ -1,22 +1,17 @@
+const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const autoprefixer = require('autoprefixer');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const baseConfig = require('./webpack.config.base.js');
 
 const config = merge(baseConfig, {
   mode: 'development',
   devtool: 'inline-source-map',
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
-    }),
-    new MiniCssExtractPlugin({
-      filename: '[name].css'
-    }),
-    new webpack.HotModuleReplacementPlugin()
-  ],
+  output: {
+    // serverのルートパスを設定する
+    publicPath: '/'
+  },
   devServer: {
     contentBase: 'dist',
     host: '0.0.0.0',
@@ -25,14 +20,26 @@ const config = merge(baseConfig, {
     inline: true,
     overlay: true,
     port: 4000
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development')
+    }),
+    new webpack.HotModuleReplacementPlugin()
+  ]
 });
 
 config.module.rules.push({
   test: /\.(sass|scss)$/,
   use: [
     'css-hot-loader',
-    MiniCssExtractPlugin.loader,
+    // hot-reloadできるようにCSSはextractせずにstyle-loaderを使ってinjectする
+    {
+      loader: 'style-loader',
+      options: {
+        sourceMap: true
+      }
+    },
     {
       loader: 'css-loader',
       options: {
@@ -62,7 +69,7 @@ config.module.rules.push({
       loader: 'sass-loader',
       options: {
         sourceMap: true,
-        includePaths: [__dirname + '/node_modules/']
+        includePaths: [path.resolve('./node_modules/')]
       }
     }
   ]
