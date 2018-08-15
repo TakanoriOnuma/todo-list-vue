@@ -43,7 +43,17 @@ export default {
   },
   beforeCreate() {
     console.log('init');
-    this.$store.dispatch(TODO_LIST_ACTIONS.ACTION_FETCH_TODO_LIST);
+    const promise = this.$store.dispatch(TODO_LIST_ACTIONS.ACTION_FETCH_TODO_LIST);
+    promise
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    window.setTimeout(() => {
+      promise.cancel();
+    }, 3000);
   },
   mounted() {
     console.log(this.$store.state);
