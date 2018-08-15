@@ -7,7 +7,7 @@ form(@submit="onSubmit")
     label(for="date") 締切：
     input(type="date", v-model="deadline", id="date")
   .input-item
-    button(type="submit", :disabled="!checkCanSubmit()") 登録
+    button(type="submit", :disabled="!canSubmittion") 登録
 </template>
 
 <script>
@@ -18,10 +18,12 @@ export default {
       deadline: ''
     };
   },
-  methods: {
-    checkCanSubmit() {
+  computed: {
+    canSubmittion() {
       return this.todoText !== '' && this.deadline !== '';
-    },
+    }
+  },
+  methods: {
     onSubmit(e) {
       e.preventDefault();
       console.log(this.todoText, this.deadline);
