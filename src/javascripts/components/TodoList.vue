@@ -2,7 +2,7 @@
 .todo-list
   h1.title todolist
   ul.list
-    template(v-for="todo in todoList")
+    template(v-for="todo in todoList.payload")
       li.item
         .todo(:class="{ 'todo--done': todo.isDone }")
           .todo__line
@@ -34,9 +34,13 @@ export default {
   },
   props: {
     todoList: {
-      type: Array,
+      type: Object,
       default: function() {
-        return [];
+        return {
+          status: '',
+          meta: {},
+          payload: []
+        };
       }
     }
   },
