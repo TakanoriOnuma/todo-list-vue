@@ -2,20 +2,23 @@
 .todo-list
   h1.title todolist
   ul.list
-    template(v-for="todo in todoList.payload")
-      li.item
-        .todo(:class="{ 'todo--done': todo.isDone }")
-          .todo__line
-            button.todo__status(
-              type="button",
-              @click="$emit('statusChange', todo.id)"
-            )
-              | {{ todo.isDone ? 'DONE' : 'PROGRESS' }}
-            .todo__deadline 締切：{{ todo.deadline | formatDate }}
-            .todo__delete(
-              @click="$emit('delete', todo.id)"
-            )
-          .todo__text {{ todo.text }}
+    template(v-if="!todoList.isInitialLoaded")
+      p loading...
+    template(v-else)
+      template(v-for="todo in todoList.payload")
+        li.item
+          .todo(:class="{ 'todo--done': todo.isDone }")
+            .todo__line
+              button.todo__status(
+                type="button",
+                @click="$emit('statusChange', todo.id)"
+              )
+                | {{ todo.isDone ? 'DONE' : 'PROGRESS' }}
+              .todo__deadline 締切：{{ todo.deadline | formatDate }}
+              .todo__delete(
+                @click="$emit('delete', todo.id)"
+              )
+            .todo__text {{ todo.text }}
 </template>
 
 <script>

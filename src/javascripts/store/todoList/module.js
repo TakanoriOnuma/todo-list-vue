@@ -8,6 +8,7 @@ export default {
   state: {
     // todoリスト
     todoList: {
+      isInitialLoaded: false,
       status: API_STATUS_EMPTY,
       meta: {},
       payload: []
@@ -25,6 +26,7 @@ export default {
           created: new Date(data.created),
           deadline: new Date(data.deadline)
         }));
+        newTodoList.isInitialLoaded = true;
         newTodoList.payload = todoList;
       }
       state.todoList = newTodoList;
