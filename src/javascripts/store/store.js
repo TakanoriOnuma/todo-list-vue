@@ -11,8 +11,8 @@ export default new Vuex.Store({
     todoList
   },
   plugins: process.env.NODE_ENV !== 'production' ? [
-      createLogger({
-        collapsed: false
-      })
-    ] : []
+    createLogger({
+      collapsed: false
+    })
+  ] : []
 });
