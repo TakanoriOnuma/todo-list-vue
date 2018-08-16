@@ -22,7 +22,9 @@ export default {
     // todo登録のステータス
     addTodoStatus: API_STATUS_EMPTY,
     // todo更新ステータス
-    updateTodoStatus: {}
+    updateTodoStatus: {},
+    // todo削除ステータス
+    deleteTodoStatus: {}
   },
   mutations: {
     // todoリストの更新
@@ -49,6 +51,13 @@ export default {
     [MUTATIONS.MUTATION_UPDATE_UPDATE_TODO_STATUS](state, { status, actionParams }) {
       state.updateTodoStatus = {
         ...state.updateTodoStatus,
+        [actionParams.todoId]: status
+      };
+    },
+    // todo削除リクエストのステータスの更新
+    [MUTATIONS.MUTATION_UPDATE_DELETE_TODO_STATUS](state, { status, actionParams }) {
+      state.deleteTodoStatus = {
+        ...state.deleteTodoStatus,
         [actionParams.todoId]: status
       };
     }
@@ -97,6 +106,21 @@ export default {
           todoId
         },
         updateMutationName: MUTATIONS.MUTATION_UPDATE_UPDATE_TODO_STATUS
+      })(commit);
+    },
+    // todoの削除
+    [ACTIONS.ACTION_REQUEST_DELETE_TODO]({ commit }, todoId) {
+      return createAPIAction({
+        method: POST,
+        endpoint: API_ROOT,
+        query: {
+          method: 'deleteTodo',
+          todoId
+        },
+        actionParams: {
+          todoId
+        },
+        updateMutationName: MUTATIONS.MUTATION_UPDATE_DELETE_TODO_STATUS
       })(commit);
     }
   }

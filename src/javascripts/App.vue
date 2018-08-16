@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import uuid from 'uuid';
 import { find } from 'lodash';
 import TodoInputter from './components/TodoInputter';
 import TodoList from './components/TodoList';
@@ -23,25 +22,6 @@ export default {
   components: {
     TodoInputter,
     TodoList
-  },
-  data() {
-    const todoList = [
-      {
-        id: uuid(),
-        isDone: true,
-        text: 'todo',
-        deadline: new Date()
-      },
-      {
-        id: uuid(),
-        isDone: false,
-        text: 'todo2',
-        deadline: new Date()
-      }
-    ];
-    return {
-      todoList
-    };
   },
   beforeCreate() {
     console.log('init');
@@ -95,7 +75,13 @@ export default {
      * @param {string} todoId - todoId
      */
     onTodoDelete(todoId) {
-      this.todoList = this.todoList.filter((todo) => todo.id !== todoId);
+      const todo = find(this.$store.state.todoList.todoList.payload, { id: todoId });
+      if (todo) {
+        this.$store.dispatch(TODO_LIST_ACTIONS.ACTION_REQUEST_DELETE_TODO, todoId)
+          .then(() => {
+            this.$store.dispatch(TODO_LIST_ACTIONS.ACTION_FETCH_TODO_LIST);
+          });
+      }
     }
   }
 };
