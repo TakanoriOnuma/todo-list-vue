@@ -20,7 +20,9 @@ export default {
       payload: []
     },
     // todo登録のステータス
-    addTodoStatus: API_STATUS_EMPTY
+    addTodoStatus: API_STATUS_EMPTY,
+    // todo更新ステータス
+    updateTodoStatus: {}
   },
   mutations: {
     // todoリストの更新
@@ -42,6 +44,13 @@ export default {
     // todoの登録結果の更新
     [MUTATIONS.MUTATION_UPDATE_ADD_TODO_STATUS](state, { status = null }) {
       state.addTodoStatus = status;
+    },
+    // todo情報の変更リクエストのステータスの更新
+    [MUTATIONS.MUTATION_UPDATE_UPDATE_TODO_STATUS](state, { status, actionParams }) {
+      state.updateTodoStatus = {
+        ...state.updateTodoStatus,
+        [actionParams.todoId]: status
+      };
     }
   },
   actions: {
@@ -71,6 +80,23 @@ export default {
           })
         },
         updateMutationName: MUTATIONS.MUTATION_UPDATE_ADD_TODO_STATUS
+      })(commit);
+    },
+    // todoの更新
+    [ACTIONS.ACTION_REQUEST_UPDATE_TODO]({ commit }, payload) {
+      const todoId = payload.todoId;
+      return createAPIAction({
+        method: POST,
+        endpoint: API_ROOT,
+        query: {
+          method: 'updateTodo',
+          todoId,
+          params: JSON.stringify(payload.params)
+        },
+        actionParams: {
+          todoId
+        },
+        updateMutationName: MUTATIONS.MUTATION_UPDATE_UPDATE_TODO_STATUS
       })(commit);
     }
   }

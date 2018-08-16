@@ -14,7 +14,7 @@
 
 <script>
 import uuid from 'uuid';
-import { findIndex } from 'lodash';
+import { find } from 'lodash';
 import TodoInputter from './components/TodoInputter';
 import TodoList from './components/TodoList';
 import * as TODO_LIST_ACTIONS from './store/todoList/actions';
@@ -76,12 +76,19 @@ export default {
      * @param {string} todoId - todoId
      */
     onTodoStatusChange(todoId) {
-      console.log(todoId);
-      const index = findIndex(this.todoList, { id: todoId });
-      this.$set(this.todoList, index, {
-        ...this.todoList[index],
-        isDone: !this.todoList[index].isDone
-      });
+      const todo = find(this.$store.state.todoList.todoList.payload, { id: todoId });
+      console.log(todo);
+      if (todo) {
+        this.$store.dispatch(TODO_LIST_ACTIONS.ACTION_REQUEST_UPDATE_TODO, {
+          todoId,
+          params: {
+            isDone: !todo.isDone
+          }
+        })
+          .then(() => {
+            this.$store.dispatch(TODO_LIST_ACTIONS.ACTION_FETCH_TODO_LIST);
+          });
+      }
     },
     /**
      * todoの削除
