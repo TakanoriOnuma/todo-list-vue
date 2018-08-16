@@ -54,7 +54,7 @@ export function createAPIAction(options) {
         case POST:
         case PUT:
         case DELETE:
-          req.send(query);
+          req.type('form').send(query);
           break;
         default:
           // do nothing

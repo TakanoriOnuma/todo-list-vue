@@ -2,7 +2,7 @@ import * as ACTIONS from './actions';
 import * as MUTATIONS from './mutations';
 import uuid from 'uuid';
 
-import { API_ROOT, GET, API_STATUS_EMPTY, API_STATUS_SUCCESS } from '../../constants/API';
+import { API_ROOT, GET, POST, API_STATUS_EMPTY, API_STATUS_SUCCESS } from '../../constants/API';
 import { createAPIAction } from '../../utils/API';
 
 const USER_ID = localStorage.getItem('userId') || uuid();
@@ -18,7 +18,9 @@ export default {
       status: API_STATUS_EMPTY,
       meta: {},
       payload: []
-    }
+    },
+    // todo登録のステータス
+    addTodoStatus: API_STATUS_EMPTY
   },
   mutations: {
     // todoリストの更新
@@ -36,6 +38,10 @@ export default {
         newTodoList.payload = todoList;
       }
       state.todoList = newTodoList;
+    },
+    // todoの登録結果の更新
+    [MUTATIONS.MUTATION_UPDATE_ADD_TODO_STATUS](state, { status = null }) {
+      state.addTodoStatus = status;
     }
   },
   actions: {
@@ -48,6 +54,23 @@ export default {
           userId: USER_ID
         },
         updateMutationName: MUTATIONS.MUTATION_UPDATE_TODO_LIST
+      })(commit);
+    },
+    // todoの追加
+    [ACTIONS.ACTION_REQUEST_ADD_TODO]({ commit }, payload) {
+      return createAPIAction({
+        method: POST,
+        endpoint: API_ROOT,
+        query: {
+          method: 'addTodo',
+          userId: USER_ID,
+          // JSONで送れないため、stringifyする
+          params: JSON.stringify({
+            text: payload.text,
+            deadline: payload.deadline.toString()
+          })
+        },
+        updateMutationName: MUTATIONS.MUTATION_UPDATE_ADD_TODO_STATUS
       })(commit);
     }
   }

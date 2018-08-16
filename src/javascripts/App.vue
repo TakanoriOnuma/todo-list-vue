@@ -1,6 +1,7 @@
 <template lang="pug">
 #app
   TodoInputter(
+    :apiStatus="$store.state.todoList.addTodoStatus"
     @submitTodo="onSubmitTodo"
   )
   TodoList(
@@ -65,11 +66,10 @@ export default {
      * @param {{ text: string, deadline: Date}} todo - todo情報
      */
     onSubmitTodo(todo) {
-      this.todoList = this.todoList.concat({
-        ...todo,
-        id: uuid(),
-        isDone: false
-      });
+      this.$store.dispatch(TODO_LIST_ACTIONS.ACTION_REQUEST_ADD_TODO, todo)
+        .then(() => {
+          this.$store.dispatch(TODO_LIST_ACTIONS.ACTION_FETCH_TODO_LIST);
+        });
     },
     /**
      * todoStatusの切り替え
