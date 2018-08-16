@@ -1,5 +1,5 @@
 // APIルート
-export const API_ROOT = 'https://script.google.com/a/team-lab.com/macros/s/AKfycbweY12xo6EZnMzdmd2JOhPNHnFFTWmxmtWfy9fQOBtYhHDACtJU/exec';
+export const API_ROOT = 'https://script.google.com/macros/s/AKfycbyyEWqBko-GwK5_sWAGzEhJE1-StVWB128-O5KS_8BYawZLX5jA/exec';
 
 // APIメソッド
 export const GET = 'GET';
