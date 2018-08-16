@@ -4,6 +4,7 @@
     @submitTodo="onSubmitTodo"
   )
   TodoList(
+    :userId="$store.state.todoList.userId"
     :todoList="$store.state.todoList.todoList"
     @statusChange="onTodoStatusChange"
     @delete="onTodoDelete"

@@ -1,6 +1,7 @@
 <template lang="pug">
 .todo-list
   h1.title todolist
+  p.user-id userId: {{ userId }}
   ul.list
     template(v-if="!todoList.isInitialLoaded")
       p loading...
@@ -36,6 +37,10 @@ export default {
     }
   },
   props: {
+    userId: {
+      type: String,
+      default: ''
+    },
     todoList: {
       type: Object,
       default: function() {
@@ -63,6 +68,10 @@ export default {
 .title {
   text-align: center;
   font-size: 20px;
+}
+
+.user-id {
+  text-align: center;
 }
 
 .list {

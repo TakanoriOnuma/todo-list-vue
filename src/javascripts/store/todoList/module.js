@@ -1,11 +1,17 @@
 import * as ACTIONS from './actions';
 import * as MUTATIONS from './mutations';
+import uuid from 'uuid';
 
 import { API_ROOT, GET, API_STATUS_EMPTY, API_STATUS_SUCCESS } from '../../constants/API';
 import { createAPIAction } from '../../utils/API';
 
+const USER_ID = localStorage.getItem('userId') || uuid();
+localStorage.setItem('userId', USER_ID);
+
 export default {
   state: {
+    // ユーザID
+    userId: USER_ID,
     // todoリスト
     todoList: {
       isInitialLoaded: false,
@@ -39,7 +45,7 @@ export default {
         method: GET,
         endpoint: API_ROOT,
         query: {
-          userId: 'hoge'
+          userId: USER_ID
         },
         updateMutationName: MUTATIONS.MUTATION_UPDATE_TODO_LIST
       })(commit);
