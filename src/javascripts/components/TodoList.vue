@@ -2,12 +2,12 @@
 .todo-list
   h1.title todolist
   p.user-id userId: {{ userId }}
-  ul.list
-    template(v-if="!todoList.isInitialLoaded")
-      p loading...
-    template(v-else)
+  template(v-if="!todoList.isInitialLoaded")
+    p loading...
+  template(v-else)
+    transition-group(tag="ul", name="flip-list", class="list")
       template(v-for="todo in todoList.payload")
-        li.item
+        li.item(:key="todo.id")
           .todo(:class="{ 'todo--done': todo.isDone }")
             .todo__line
               button.todo__status(
@@ -58,6 +58,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.flip-list-leave-active {
+  position: absolute;
+}
+
 .todo-list {
   margin-top: 15px;
   padding: 10px;
@@ -88,6 +95,7 @@ export default {
   $root: &;
   border: solid 1px #ccc;
   padding: 10px;
+  background-color: #fff;
 
   &__line {
     display: flex;
