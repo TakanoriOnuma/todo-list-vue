@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const autoprefixer = require('autoprefixer');
+const doiuse = require('doiuse');
 
 const baseConfig = require('./webpack.config.base.js');
 
@@ -29,6 +30,15 @@ const config = merge(baseConfig, {
   ]
 });
 
+const browsers = [
+  'ie >= 11',
+  'last 2 edge version',
+  'last 2 ff version',
+  'last 2 chrome version',
+  'safari >= 10',
+  'ios >= 9',
+  'last 2 ChromeAndroid version'
+];
 config.module.rules.push({
   test: /\.(sass|scss)$/,
   use: [
@@ -57,10 +67,11 @@ config.module.rules.push({
         sourceMap: true,
         plugins: [
           autoprefixer({
-            browsers: [
-              'last 2 version',
-              'IE 11'
-            ]
+            browsers
+          }),
+          doiuse({
+            browsers,
+            ignore: ['flexbox']
           })
         ]
       }
